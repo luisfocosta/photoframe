@@ -6,6 +6,7 @@ from browser import (close_all_windows, open_new_window, navigate_to_url,
                     open_first_photo,
                     set_fullscreen, get_driver_state, reset_driver, list_all_browser_windows,
                     connect_to_existing_window, get_driver)
+from windows_sys import sleep_now
 import logging
 import queue
 import threading
@@ -462,15 +463,14 @@ def handle_webhook():
 @app.route('/sleep', methods=['POST'])
 def handle_sleep():
     """
-    Puts the Windows host to sleep.
+    Puts the Windows host to sleep using the Windows API.
     """
     try:
-        import subprocess
         logging.info("Putting system to sleep...")
-        subprocess.run(['powershell', 'Add-Type –AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait("%({F4})")'], check=False)
-        # Alternative: os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
-        subprocess.run(['rundll32.exe', 'powrprof.dll,SetSuspendState', '0,1,0'], check=False)
         return jsonify({"message": "System is going to sleep"})
+        sleep_now()
+        logging.info({"message": "If this message is still visible, the sleep process has failed"})
+        
     except Exception as e:
         logging.error(f"Error putting system to sleep: {e}")
         return jsonify({"error": str(e)}), 500
