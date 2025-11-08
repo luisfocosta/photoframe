@@ -1,9 +1,10 @@
 Windows curl versions:
-curl -X POST http://photoframe:8000/fullscreen
-curl -X POST http://photoframe:8000/close_windows
-curl -X POST http://photoframe:8000/open_window
-curl -X POST http://photoframe:8000/start_slideshow
-curl -X GET http://photoframe:8000/driver_state
-curl -X POST http://photoframe:8000/open_first_photo
-curl -X GET http://photoframe:8000/list_windows
-curl -X POST http://photoframe:8000/navigate -H "Content-Type: application/json" --data "{\"url\": \"https://photoprism.augmentedbytech.com/library/albums/at3la41gjbn7auu9/view\"}"
+curl -X POST http://photoframe:8123/fullscreen
+curl -X POST http://photoframe:8123/close_windows
+curl -X POST http://photoframe:8123/open_window
+curl -X POST http://photoframe:8123/start_slideshow
+curl -X GET http://photoframe:8123/driver_state
+curl -X POST http://photoframe:8123/open_first_photo
+curl -X GET http://photoframe:8123/list_windows
+curl -X POST http://photoframe:8123/navigate -H "Content-Type: application/json" --data "{\"url\": \"https://photoprism.augmentedbytech.com/library/albums/at3la41gjbn7auu9/view\"}"
+curl -X POST http://photoframe:8123/sleep

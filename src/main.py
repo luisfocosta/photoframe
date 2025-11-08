@@ -459,7 +459,23 @@ def handle_webhook():
         logging.exception(f"Error processing webhook: {e}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/sleep', methods=['POST'])
+def handle_sleep():
+    """
+    Puts the Windows host to sleep.
+    """
+    try:
+        import subprocess
+        logging.info("Putting system to sleep...")
+        subprocess.run(['powershell', 'Add-Type –AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait("%({F4})")'], check=False)
+        # Alternative: os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
+        subprocess.run(['rundll32.exe', 'powrprof.dll,SetSuspendState', '0,1,0'], check=False)
+        return jsonify({"message": "System is going to sleep"})
+    except Exception as e:
+        logging.error(f"Error putting system to sleep: {e}")
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     # Enable debug mode if FLASK_ENV is set to development
     debug_mode = os.getenv('FLASK_ENV') == 'development' or os.getenv('FLASK_DEBUG') == '1'
-    app.run(host="0.0.0.0", port=8000, debug=debug_mode)
+    app.run(host="0.0.0.0", port=8123, debug=debug_mode)
